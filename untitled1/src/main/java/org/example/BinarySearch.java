@@ -17,11 +17,11 @@ public class BinarySearch<T> {
 
     private int binarySearch(T[] arr, T key, Comparator<T> comparator) {
         if (Objects.isNull(arr) || arr.length == 0) {
-            throw new IllegalArgumentException("Array is empty or null");
+            throw new IllegalArgumentException("Множество не заполнено");
         }
 
         if (!isSorted(arr, comparator)) {
-            throw new IllegalStateException("Array is not sorted");
+            throw new IllegalStateException("Множество не отсортировано");
         }
 
         int low = 0;
@@ -35,7 +35,7 @@ public class BinarySearch<T> {
             } else if (result > 0) { // поиск в правой части массива
                 low = mid + 1;
             } else {
-                System.out.println("Element found: " + val);
+                System.out.println("Элемент найден: " + val);
                 return mid;
             }
         }
@@ -46,7 +46,7 @@ public class BinarySearch<T> {
         try {
             int index = binarySearch(arr, key, comparator);
             if (index == -1) {
-                System.err.println("Element not found: " + key);
+                System.err.println("Элемент не найден: " + key);
                 return null;
             } else {
                 return arr[index];

@@ -1,4 +1,8 @@
-package Sorted;
+package org.example.Sorted;
+
+import org.example.model.Animal;
+import org.example.model.Barrel;
+import org.example.model.Person;
 
 import java.util.Comparator;
 
@@ -34,7 +38,7 @@ public class CustomSort {
     public static Comparator<Barrel> getBarrelComparator() {
         return Comparator.comparingDouble(Barrel::getVolume)
                 .thenComparing(Barrel::getStoredMaterial)
-                .thenComparing(Barrel::getMadeOf);
+                .thenComparing(Barrel::getMaterial);
     }
 
     /**
@@ -52,7 +56,7 @@ public class CustomSort {
                         return b1.getVolume() % 2 == 0 ? -1 : 1;
                     }
                 })
-                .thenComparing(Barrel::getMadeOf);
+                .thenComparing(Barrel::getMaterial);
     }
 
     /**

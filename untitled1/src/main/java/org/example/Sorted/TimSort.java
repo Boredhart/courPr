@@ -1,11 +1,13 @@
-package Sorted;
+package org.example.Sorted;
 
+import java.util.Arrays;
 import java.util.Comparator;
 
 /**
  * Класс TimSort реализует интерфейс SortStrategy и предоставляет метод для сортировки массива с использованием алгоритма TimSort.
  * @param <T> Тип элементов в массиве, который нужно отсортировать.
  */
+
 public class TimSort<T> implements SortStrategy<T> {
 
     /**
@@ -79,8 +81,8 @@ public class TimSort<T> implements SortStrategy<T> {
         int n1 = mid - left + 1;
         int n2 = right - mid;
 
-        T[] leftArray = (T[]) new Object[n1];
-        T[] rightArray = (T[]) new Object[n2];
+        T[] leftArray = Arrays.copyOfRange(array, left, mid + 1);
+        T[] rightArray = Arrays.copyOfRange(array, mid + 1, right + 1);
 
         System.arraycopy(array, left, leftArray, 0, n1);
         System.arraycopy(array, mid + 1, rightArray, 0, n2);
