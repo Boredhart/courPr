@@ -42,6 +42,7 @@ public class InputService implements DataInputService {
         }
     }
 
+    @Override
     public <T> T[] readFromConsole(int size, Class<T> type) {
         List<String> input = getInputFromConsole(size);
 
@@ -74,6 +75,10 @@ public class InputService implements DataInputService {
     public <T> List<String> getInputFromConsole(int size){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter " + size + " lines of data separated by ','");
+        System.out.println("Example:");
+        System.out.println("Animal - Dog,Brown,true ");
+        System.out.println("Barrel - Wood,Water,1000");
+        System.out.println("Person - Male,Dima,25");
         List<String> input = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             String line = scanner.nextLine();
