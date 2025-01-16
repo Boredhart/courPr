@@ -8,9 +8,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 public class InputService implements DataInputService {
+    private final Random random = new Random();
+
     @Override
     public <T> T[] readFromFile(String filePath, Class<T> type) {
         File file = new File(filePath);
@@ -28,7 +31,15 @@ public class InputService implements DataInputService {
 
     @Override
     public <T> T[] generateRandom(int size, Class<T> type) {
-        return null;
+        if (type.equals(Animal.class)) {
+            return (T[]) generateRandomAnimalArray(size);
+        } else if (type.equals(Barrel.class)) {
+            return (T[]) generateRandomBarrelArray(size);
+        } else if (type.equals(Person.class)) {
+            return (T[]) generateRandomPersonArray(size);
+        } else {
+            throw new IllegalArgumentException("Unsupported class type: " + type.getName());
+        }
     }
 
     public <T> T[] readFromConsole(int size, Class<T> type) {
@@ -198,5 +209,47 @@ public class InputService implements DataInputService {
             return new Person[0];
         }
         return persons.toArray(new Person[0]);
+    }
+
+    private Animal[] generateRandomAnimalArray(int size) {
+        Animal[] animals = new Animal[size];
+        String[] species = {"Dog", "Cat", "Bird", "Fish", "Rabbit"};
+        String[] eyeColors = {"Blue", "Green", "Brown", "Black", "Gray"};
+        for (int i = 0; i < size; i++) {
+            animals[i] = new Animal.Builder()
+                    .species(species[random.nextInt(species.length)])
+                    .eyeColor(eyeColors[random.nextInt(eyeColors.length)])
+                    .hasWool(random.nextBoolean())
+                    .build();
+        }
+        return animals;
+    }
+
+    private Barrel[] generateRandomBarrelArray(int size) {
+        Barrel[] barrels = new Barrel[size];
+        String[] materials = {"Wood", "Metal", "Plastic", "Gold"};
+        String[] storedMaterials = {"Water", "Oil", "Wine", "Grain"};
+        for (int i = 0; i < size; i++) {
+            barrels[i] = new Barrel.Builder()
+                    .volume(random.nextInt(1000))
+                    .material(materials[random.nextInt(materials.length)])
+                    .storedMaterial(storedMaterials[random.nextInt(storedMaterials.length)])
+                    .build();
+        }
+        return barrels;
+    }
+
+    private Person[] generateRandomPersonArray(int size) {
+        Person[] people = new Person[size];
+        String[] genders = {"Male", "Female"};
+        String[] lastNames = {"Julian", "Dima", "Sergey", "Anton", "Ars"};
+        for (int i = 0; i < size; i++) {
+            people[i] = new Person.Builder()
+                    .gender(genders[random.nextInt(genders.length)])
+                    .age(random.nextInt(100))
+                    .lastName(lastNames[random.nextInt(lastNames.length)])
+                    .build();
+        }
+        return people;
     }
 }
