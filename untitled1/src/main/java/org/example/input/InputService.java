@@ -94,7 +94,7 @@ public class InputService implements DataInputService {
                 Animal.Builder builder = new Animal.Builder();
                 builder.species(fields[0].trim());
                 builder.eyeColor(fields[1].trim());
-                builder.hasWool(Boolean.parseBoolean(fields[2].trim()));
+                builder.hasFur(Boolean.parseBoolean(fields[2].trim()));
                 return (T) builder.build();
 
             } else if (type.equals(Barrel.class)) {
@@ -130,12 +130,12 @@ public class InputService implements DataInputService {
                     try {
                         String species = parts[0].trim();
                         String eyeColor = parts[1].trim();
-                        boolean hasWool = Boolean.parseBoolean(parts[2].trim());
+                        boolean hasFur = Boolean.parseBoolean(parts[2].trim());
                         if(DataValidator.isValidString(species) && DataValidator.isValidString(eyeColor))
                             animals.add(new Animal.Builder()
                                     .species(species)
                                     .eyeColor(eyeColor)
-                                    .hasWool(hasWool)
+                                    .hasFur(hasFur)
                                     .build());
                     } catch (NumberFormatException e) {
                         System.err.println("Incorrect format of number field, skip line: " + line);
@@ -224,7 +224,7 @@ public class InputService implements DataInputService {
             animals[i] = new Animal.Builder()
                     .species(species[random.nextInt(species.length)])
                     .eyeColor(eyeColors[random.nextInt(eyeColors.length)])
-                    .hasWool(random.nextBoolean())
+                    .hasFur(random.nextBoolean())
                     .build();
         }
         return animals;
