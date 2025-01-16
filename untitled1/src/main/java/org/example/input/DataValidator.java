@@ -2,7 +2,7 @@ package org.example.input;
 
 public class DataValidator {
     public static boolean isValidString(String input) {
-        return input != null && !input.trim().isEmpty();
+        return input != null && !input.trim().isEmpty() && input.length() <= 12;
     }
 
     public static boolean isValidInteger(String input) {
