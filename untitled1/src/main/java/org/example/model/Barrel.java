@@ -1,10 +1,14 @@
 package org.example.model;
+
 import java.lang.Comparable;
 
+/**
+ * Класс Barrel  реализует интерфейс Comparable и представляет бочку с полями объём, содержимое и материал.
+ */
 public class Barrel implements Comparable<Barrel> {
-    private final int volume;
-    private final String storedMaterial;
-    private final String material;
+    private final int volume; // объём
+    private final String storedMaterial; // содержимое
+    private final String material; // материал
 
     private Barrel(Builder builder) {
         this.volume = builder.volume;
@@ -24,7 +28,9 @@ public class Barrel implements Comparable<Barrel> {
         return material;
     }
 
-    @Override
+    /**
+     * Метод compareTo сравнивает Barrel по объёму, материалу и содержимому.
+     */
     public int compareTo(Barrel other) {
         int result = Integer.compare(this.volume, other.volume);
         if (result == 0) result = this.material.compareTo(other.material);
@@ -32,13 +38,18 @@ public class Barrel implements Comparable<Barrel> {
         return result;
     }
 
-    @Override
+    /**
+     * Метод toString возвращает строку с информацией о бочке.
+     */
     public String toString() {
         return "Бочка - Объём: " + volume +
                 ", Содержимое: " + storedMaterial +
                 ", Материал: " + material;
     }
 
+    /**
+     * Вложенный статический класс Builder используется для пошагового создания объекта класса Barrel.
+     */
     public static class Builder {
         private int volume;
         private String storedMaterial;

@@ -1,10 +1,14 @@
 package org.example.model;
+
 import java.lang.Comparable;
 
-public class Animal implements Comparable<Animal>{
-    private final String species;
-    private final String eyeColor;
-    private final boolean hasFur;
+/**
+ * Класс Animal реализует интерфейс Comparable и представляет животное с полями вид, цвет глаз и наличие шерсти.
+ */
+public class Animal implements Comparable<Animal> {
+    private final String species; // вид
+    private final String eyeColor; // цвет глаз
+    private final boolean hasFur; // наличие шерсти
 
     private Animal(Builder builder) {
         this.species = builder.species;
@@ -24,6 +28,9 @@ public class Animal implements Comparable<Animal>{
         return hasFur;
     }
 
+    /**
+     * Метод compareTo сравнивает Animal по виду, цвету глаз и наличию шерсти.
+     */
     public int compareTo(Animal other) {
         int result = this.species.compareTo(other.species);
         if (result == 0) result = this.eyeColor.compareTo(other.eyeColor);
@@ -31,13 +38,18 @@ public class Animal implements Comparable<Animal>{
         return result;
     }
 
-    @Override
+    /**
+     * Метод toString возвращает строку с информацией о животном.
+     */
     public String toString() {
         return "Животное - Вид: " + species +
                 ", Цвет глаз: " + eyeColor +
                 ", Наличие шерсти: " + (hasFur ? "Есть" : "Нет");
     }
 
+    /**
+     * Вложенный статический класс Builder используется для пошагового создания объекта класса Animal.
+     */
     public static class Builder {
         private String species;
         private String eyeColor;
@@ -62,5 +74,5 @@ public class Animal implements Comparable<Animal>{
             return new Animal(this);
         }
     }
-    }
+}
 
