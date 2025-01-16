@@ -35,11 +35,9 @@ public class Person implements Comparable<Person> {
 
     @Override
     public String toString() {
-        return "Person{" +
-                "gender='" + gender + '\'' +
-                ", age=" + age +
-                ", lastName='" + lastName + '\'' +
-                '}';
+        return "Человек - Пол: " + gender +
+                ", Возраст: " + age +
+                ", Фамилия: " + lastName;
     }
 
     public static class Builder {

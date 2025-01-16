@@ -33,11 +33,9 @@ public class Animal implements Comparable<Animal>{
 
     @Override
     public String toString() {
-        return "Animal {" +
-                "species='" + species + '\'' +
-                ", eyeColor='" + eyeColor + '\'' +
-                ", hasWool=" + hasFur +
-                '}';
+        return "Животное - Вид: " + species +
+                ", Цвет глаз: " + eyeColor +
+                ", Наличие шерсти: " + (hasFur ? "Есть" : "Нет");
     }
 
     public static class Builder {

@@ -34,11 +34,9 @@ public class Barrel implements Comparable<Barrel> {
 
     @Override
     public String toString() {
-        return "Barrel{" +
-                "volume=" + volume +
-                ", storedMaterial='" + storedMaterial + '\'' +
-                ", material='" + material + '\'' +
-                '}';
+        return "Бочка - Объём: " + volume +
+                ", Содержимое: " + storedMaterial +
+                ", Материал: " + material;
     }
 
     public static class Builder {
