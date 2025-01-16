@@ -4,6 +4,8 @@ import org.example.model.Animal;
 import org.example.model.Barrel;
 import org.example.model.Person;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -11,7 +13,17 @@ import java.util.Scanner;
 public class InputService implements DataInputService {
     @Override
     public <T> T[] readFromFile(String filePath, Class<T> type) {
-        return null;
+        File file = new File(filePath);
+
+        if (type.equals(Animal.class)) {
+            return (T[]) readAnimalFromFile(file);
+        } else if (type.equals(Barrel.class)) {
+            return (T[]) readBarrelFromFile(file);
+        } else if (type.equals(Person.class)) {
+            return (T[]) readPersonFromFile(file);
+        } else {
+            throw new IllegalArgumentException("Unsupported class: " + type.getName());
+        }
     }
 
     @Override
@@ -90,5 +102,101 @@ public class InputService implements DataInputService {
             System.out.println("Incorrect input data: " + e);
             return null;
         }
+    }
+
+    private Animal[] readAnimalFromFile(File file) {
+        List<Animal> animals = new ArrayList<>();
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] parts = line.split(",");
+                if (parts.length == 3) {
+                    try {
+                        String species = parts[0].trim();
+                        String eyeColor = parts[1].trim();
+                        boolean hasWool = Boolean.parseBoolean(parts[2].trim());
+                        if(DataValidator.isValidString(species) && DataValidator.isValidString(eyeColor))
+                            animals.add(new Animal.Builder()
+                                    .species(species)
+                                    .eyeColor(eyeColor)
+                                    .hasWool(hasWool)
+                                    .build());
+                    } catch (NumberFormatException e) {
+                        System.err.println("Incorrect format of number field, skip line: " + line);
+                    } catch (IllegalArgumentException e) {
+                        System.err.println("Incorrect format of logic field, skip line: " + line);
+                    }
+                }
+                else {
+                    System.err.println("Incorrect format line, skip line: " + line);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("File not founded: " + file.getAbsolutePath());
+            return new Animal[0];
+        }
+        return animals.toArray(new Animal[0]);
+    }
+
+    private Barrel[] readBarrelFromFile(File file) {
+        List<Barrel> barrels = new ArrayList<>();
+        try (Scanner fileScanner = new Scanner(file)) {
+            while (fileScanner.hasNextLine()) {
+                String line = fileScanner.nextLine();
+                String[] parts = line.split(",");
+                if (parts.length == 3) {
+                    try {
+                        int volume = Integer.parseInt(parts[0].trim());
+                        String material = parts[1].trim();
+                        String storedMaterial = parts[2].trim();
+                        if(DataValidator.isValidString(material) && DataValidator.isValidString(storedMaterial))
+                            barrels.add(new Barrel.Builder()
+                                    .volume(volume)
+                                    .material(material)
+                                    .storedMaterial(storedMaterial)
+                                    .build());
+                    } catch (NumberFormatException e) {
+                        System.err.println("Incorrect format of number field, skip line: " + line);
+                    }
+                } else {
+                    System.err.println("Incorrect format line, skip line: " + line);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("File not founded: " + file.getAbsolutePath());
+            return new Barrel[0];
+        }
+        return barrels.toArray(new Barrel[0]);
+    }
+
+    private Person[] readPersonFromFile(File file) {
+        List<Person> persons = new ArrayList<>();
+        try (Scanner fileScanner = new Scanner(file)) {
+            while (fileScanner.hasNextLine()) {
+                String line = fileScanner.nextLine();
+                String[] parts = line.split(",");
+                if (parts.length == 3) {
+                    try {
+                        String gender = parts[0].trim();
+                        int age = Integer.parseInt(parts[1].trim());
+                        String lastName = parts[2].trim();
+                        if(DataValidator.isValidString(gender) && DataValidator.isValidString(lastName))
+                            persons.add(new Person.Builder()
+                                    .gender(gender)
+                                    .age(age)
+                                    .lastName(lastName)
+                                    .build());
+                    } catch (NumberFormatException e) {
+                        System.err.println("Incorrect format of number field, skip line: " + line);
+                    }
+                } else {
+                    System.err.println("Incorrect format line, skip line: " + line);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("File not founded: " + file.getAbsolutePath());
+            return new Person[0];
+        }
+        return persons.toArray(new Person[0]);
     }
 }
