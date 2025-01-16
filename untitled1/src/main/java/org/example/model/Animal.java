@@ -33,11 +33,7 @@ public class Animal implements Comparable<Animal>{
 
     @Override
     public String toString() {
-        return "Animal {" +
-                "species='" + species + '\'' +
-                ", eyeColor='" + eyeColor + '\'' +
-                ", hasWool=" + hasFur +
-                '}';
+        return "Animal {";
     }
 
     public static class Builder {
