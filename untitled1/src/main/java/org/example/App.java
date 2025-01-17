@@ -161,7 +161,7 @@ public class App {
             }
 
             if (foundElement != null) {
-                saveRequest(scanner, foundElement, outputService);
+                saveRequestSolo(scanner, foundElement, outputService);
             } else {
                 repeat(scanner);
             }
@@ -191,7 +191,7 @@ public class App {
         }
     }
 
-    private static <T> void saveRequest (Scanner scanner, T foundElement, OutputService outputService) {
+    private static <T> void saveRequestSolo (Scanner scanner, T foundElement, OutputService outputService) {
         System.out.println("Хотите записать найденный элемент в документ?");
         System.out.println("1. Да.");
         System.out.println("2. Нет.");
@@ -210,7 +210,7 @@ public class App {
             } while (flag);
         } else {
             System.out.println("Неверный выбор. Повторите попытку.");
-            saveRequest(scanner, foundElement, outputService);
+            saveRequestSolo(scanner, foundElement, outputService);
         }
     }
 
