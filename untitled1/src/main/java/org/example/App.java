@@ -1,11 +1,15 @@
 package org.example;
+import com.sun.source.tree.ContinueTree;
 import org.example.input.InputService;
 import org.example.model.Animal;
 import org.example.model.Barrel;
 import org.example.model.Person;
 import org.example.Sorted.CustomSort;
 import org.example.Sorted.TimSort;
+import org.example.output.OutputService;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.Scanner;
 
@@ -55,11 +59,16 @@ public class App {
             case 1 -> processSorting(scanner, Animal.class);
             case 2 -> processSorting(scanner, Barrel.class);
             case 3 -> processSorting(scanner, Person.class);
-            default -> System.out.println("Неверный выбор. Повторите попытку.");
+            default -> {
+                System.out.println("Неверный выбор. Повторите попытку.");
+                processObjectType(scanner);
+            }
         }
     }
 
     private static <T> void processSorting(Scanner scanner, Class<T> type) {
+        OutputService outputService = new OutputService();
+
         System.out.println();
         System.out.println("Выберите тип сортировки:");
         System.out.println("1. Обычная");
@@ -90,20 +99,119 @@ public class App {
             timSort.sort(dataArray, comparator);
             System.out.println("Отсортированный массив: " + Arrays.toString(dataArray));
 
-            // Бинарный поиск
-            System.out.println("Введите ключ для бинарного поиска:");
-            String key = scanner.nextLine().toLowerCase();
-            T keyObject = parseKey(key, type);
-            if (keyObject != null) {
-                BinarySearch<T> binarySearch = new BinarySearch<>();
-                binarySearch.findElement(dataArray, keyObject, comparator);
-                System.out.println();
-            }
+            saveRequest(scanner, outputService, type, dataArray, comparator);
+
         } else {
-            System.out.println("Ошибка. Неверный номер сортировки. Попробуйте еще раз.");
-            System.out.println();
+            System.out.println("Неверный выбор. Повторите попытку.");
+            processSorting(scanner, type);
         }
 
+    }
+
+    private static <T> void saveRequest (Scanner scanner, OutputService outputService, Class<T> type, T[] dataArray, Comparator<T> comparator) {
+        System.out.println("Хотите сохранить отсортированный массив?");
+        System.out.println("1. Да.");
+        System.out.println("2. Нет.");
+        System.out.print("Ваш выбор: ");
+        int saveChoice = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (saveChoice) {
+            case 1:
+                // Запись отсортированного массива в файл
+                boolean flag;
+                do {
+                    System.out.print("Введите путь к файлу для записи отсортированных данных: ");
+                    String sortedFilePath = scanner.nextLine();
+                    flag = outputService.writeToFile(sortedFilePath, Arrays.asList(dataArray));
+                } while (flag);
+
+                searchRequest(scanner, type, dataArray, comparator);
+                break;
+            case 2:
+                searchRequest(scanner, type, dataArray, comparator);
+                break;
+            default:
+                System.out.println("Неверный выбор. Повторите попытку.");
+                saveRequest(scanner, outputService, type, dataArray, comparator);
+        }
+    }
+
+    private static <T> void searchRequest (Scanner scanner, Class<T> type, T[] dataArray, Comparator<T> comparator) {
+        OutputService outputService = new OutputService();
+
+        System.out.println("Хотите найти элемент в массиве?");
+        System.out.println("1. Да.");
+        System.out.println("2. Нет.");
+        System.out.print("Ваш выбор: ");
+        int searchChoice = scanner.nextInt();
+        scanner.nextLine();
+
+        if (searchChoice == 1) {
+            // Бинарный поиск
+            System.out.println("Введите ключ для бинарного поиска. Регистр важен!");
+            String key = scanner.nextLine();
+            T keyObject = parseKey(key, type);
+            T foundElement = null;
+
+            if (keyObject != null) {
+                BinarySearch<T> binarySearch = new BinarySearch<>();
+                foundElement = binarySearch.findElement(dataArray, keyObject, comparator);
+                System.out.println();
+            }
+
+            if (foundElement != null) {
+                saveRequest(scanner, foundElement, outputService);
+            } else {
+                repeat(scanner);
+            }
+        } else if (searchChoice == 2) {
+            System.out.println("Возврат в начало.");
+        } else {
+            System.out.println("Неверный выбор. Повторите попытку.");
+            searchRequest(scanner, type, dataArray, comparator);
+        }
+    }
+
+    private static <T> void repeat (Scanner scanner) {
+        System.out.println("Объект не найден. Повторить?");
+        System.out.println("1. Да.");
+        System.out.println("2. Нет.");
+        System.out.print("Ваш выбор:");
+        int repeat = scanner.nextInt();
+        scanner.nextLine();
+
+        if (repeat == 1) {
+            repeat(scanner);
+        } else if (repeat == 2) {
+            System.out.println("Возврат в начало.");
+        } else {
+            System.out.println("Неверный выбор. Повторите попытку.");
+            repeat(scanner);
+        }
+    }
+
+    private static <T> void saveRequest (Scanner scanner, T foundElement, OutputService outputService) {
+        System.out.println("Хотите записать найденный элемент в документ?");
+        System.out.println("1. Да.");
+        System.out.println("2. Нет.");
+        System.out.print("Ваш выбор: ");
+        int saveChoice = scanner.nextInt();
+        scanner.nextLine();
+
+        if (saveChoice == 1) {
+            // Запись найденного элемента в файл
+            boolean flag;
+            do {
+                System.out.print("Введите путь к файлу для записи найденного значения: ");
+                String searchFilePath = scanner.nextLine();
+                flag = outputService.writeLineToFile(searchFilePath, foundElement.toString());
+                System.out.println();
+            } while (flag);
+        } else {
+            System.out.println("Неверный выбор. Повторите попытку.");
+            saveRequest(scanner, foundElement, outputService);
+        }
     }
 
     private static <T> T[] getDataArray(Scanner scanner, Class<T> type) {
@@ -135,7 +243,7 @@ public class App {
                 return inputService.generateRandom(randomSize, type);
             default:
                 System.out.println("Неверный выбор. Повторите попытку.");
-                return null;
+                return getDataArray(scanner, type);
         }
     }
 
