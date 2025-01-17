@@ -6,7 +6,7 @@ public class DataValidator {
     }
 
     public static boolean isValidInteger(String input) {
-        if(!isValidString(input)) return false;
+        if (!isValidString(input)) return false;
         try {
             Integer.parseInt(input);
             return true;
@@ -14,6 +14,7 @@ public class DataValidator {
             return false;
         }
     }
+
     public static boolean isValidBoolean(String input) {
         if (!isValidString(input)) {
             return false;

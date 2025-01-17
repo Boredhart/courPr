@@ -5,6 +5,7 @@ import java.util.Comparator;
 
 /**
  * Класс TimSort реализует интерфейс SortStrategy и предоставляет метод для сортировки массива с использованием алгоритма TimSort.
+ *
  * @param <T> Тип элементов в массиве, который нужно отсортировать.
  */
 
@@ -12,7 +13,8 @@ public class TimSort<T> implements SortStrategy<T> {
 
     /**
      * Сортирует данный массив с использованием алгоритма TimSort.
-     * @param array Массив, который нужно отсортировать.
+     *
+     * @param array      Массив, который нужно отсортировать.
      * @param comparator Компаратор, который нужно использовать для сравнения элементов в массиве.
      */
     @Override
@@ -25,10 +27,11 @@ public class TimSort<T> implements SortStrategy<T> {
 
     /**
      * Сортирует данный массив с использованием алгоритма TimSort.
-     * @param array Массив, который нужно отсортировать.
+     *
+     * @param array      Массив, который нужно отсортировать.
      * @param comparator Компаратор, который нужно использовать для сравнения элементов в массиве.
-     * @param left Левый индекс массива.
-     * @param right Правый индекс массива.
+     * @param left       Левый индекс массива.
+     * @param right      Правый индекс массива.
      */
     private void timSort(T[] array, Comparator<T> comparator, int left, int right) {
         int RUN = 32;
@@ -51,10 +54,11 @@ public class TimSort<T> implements SortStrategy<T> {
 
     /**
      * Сортирует данный массив с использованием алгоритма вставки.
-     * @param array Массив, который нужно отсортировать.
+     *
+     * @param array      Массив, который нужно отсортировать.
      * @param comparator Компаратор, который нужно использовать для сравнения элементов в массиве.
-     * @param left Левый индекс массива.
-     * @param right Правый индекс массива.
+     * @param left       Левый индекс массива.
+     * @param right      Правый индекс массива.
      */
     private void insertionSort(T[] array, Comparator<T> comparator, int left, int right) {
         for (int i = left + 1; i <= right; i++) {
@@ -71,11 +75,12 @@ public class TimSort<T> implements SortStrategy<T> {
 
     /**
      * Объединяет два отсортированных подмассива в один отсортированный массив.
-     * @param array Массив, который нужно отсортировать.
+     *
+     * @param array      Массив, который нужно отсортировать.
      * @param comparator Компаратор, который нужно использовать для сравнения элементов в массиве.
-     * @param left Левый индекс массива.
-     * @param mid Средний индекс массива.
-     * @param right Правый индекс массива.
+     * @param left       Левый индекс массива.
+     * @param mid        Средний индекс массива.
+     * @param right      Правый индекс массива.
      */
     private void merge(T[] array, Comparator<T> comparator, int left, int mid, int right) {
         int n1 = mid - left + 1;
