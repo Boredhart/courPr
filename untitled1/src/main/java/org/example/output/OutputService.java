@@ -11,9 +11,9 @@ public class OutputService implements DataOutputservice{
 
     /**
      * Записывает коллекцию в файл в режиме добавления.
-     * @param filePath путь к файлу
-     * @param data коллекция для записи
-     * @param <T> тип данных
+     * filePath путь к файлу
+     * data коллекция для записи
+     * <T> тип данных
      */
     public <T> boolean writeToFile(String filePath, List<T> data) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
@@ -31,9 +31,8 @@ public class OutputService implements DataOutputservice{
 
     /**
      * Записывает одну строку в файл в режиме добавления.
-     *
-     * @param filePath путь к файлу
-     * @param value    строка для записи
+     * filePath путь к файлу
+     * value    строка для записи
      */
     public boolean writeLineToFile(String filePath, String value) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {

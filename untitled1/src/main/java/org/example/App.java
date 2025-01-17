@@ -14,14 +14,14 @@ import java.util.Scanner;
 
 
 public class App {
-    public static void main( String[] args ) {
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         boolean flag = true;
 
         cycle(scanner, flag);
     }
 
-    public static void cycle (Scanner scanner, boolean flag) {
+    public static void cycle(Scanner scanner, boolean flag) {
         while (flag) {
             System.out.println();
             System.out.println("Выберите действие:");
@@ -114,7 +114,7 @@ public class App {
 
     }
 
-    private static <T> void saveRequest (Scanner scanner, OutputService outputService, Class<T> type, T[] dataArray, Comparator<T> comparator) {
+    private static <T> void saveRequest(Scanner scanner, OutputService outputService, Class<T> type, T[] dataArray, Comparator<T> comparator) {
         System.out.println();
         System.out.println("Хотите сохранить отсортированный массив?");
         System.out.println("1. Да.");
@@ -146,7 +146,7 @@ public class App {
         }
     }
 
-    private static <T> void searchRequest (Scanner scanner, Class<T> type, T[] dataArray, Comparator<T> comparator) {
+    private static <T> void searchRequest(Scanner scanner, Class<T> type, T[] dataArray, Comparator<T> comparator) {
         OutputService outputService = new OutputService();
 
         System.out.println();
@@ -186,7 +186,7 @@ public class App {
         }
     }
 
-    private static <T> void repeat (Scanner scanner) {
+    private static <T> void repeat(Scanner scanner) {
         System.out.println();
         System.out.println("Объект не найден. Повторить?");
         System.out.println("1. Да.");
@@ -207,7 +207,7 @@ public class App {
         }
     }
 
-    private static <T> void saveRequestSolo (Scanner scanner, T foundElement, OutputService outputService) {
+    private static <T> void saveRequestSolo(Scanner scanner, T foundElement, OutputService outputService) {
         System.out.println();
         System.out.println("Хотите записать найденный элемент в документ?");
         System.out.println("1. Да.");
@@ -257,7 +257,7 @@ public class App {
                 System.out.print("Введите путь к файлу: ");
                 String filePath = scanner.nextLine();
                 T[] result = inputService.readFromFile(filePath, type);
-                if (result !=  null && result.length != 0) {
+                if (result != null && result.length != 0) {
                     return result;
                 } else {
                     System.out.println();
@@ -318,70 +318,4 @@ public class App {
             return null;
         }
     }
-
-//    private static <T> T[] inputDataManually(Scanner scanner, Class<T> type) {
-//        System.out.println();
-//        System.out.println("Введите количество элементов: ");
-//        int size = scanner.nextInt();
-//        scanner.nextLine();
-//        T[] array = (T[]) new Object[size];
-//        for (int i = 0; i < size; i++) {
-//            System.out.println();
-//            System.out.println("Введите данные для элемента " + (i + 1) + ":");
-//            String input = scanner.nextLine();
-//            T obj = parseKey(input, type);
-//            if (obj != null) {
-//                array[i] = obj;
-//            } else {
-//                System.out.println();
-//                System.out.println("Ошибка при вводе данных.");
-//                i--;
-//            }
-//        }
-//        return array;
-//    }
-//
-//    private static <T> T parseKey(String input, Class<T> type) {
-//        try {
-//            if (type == Animal.class) {
-//                String[] parts = input.split(",");
-//                String species = parts[0];
-//                String eyeColor = parts[1];
-//                boolean hasFur = Boolean.parseBoolean(parts[2]);
-//                return type.cast(new Animal.Builder()
-//                        .species(species)
-//                        .eyeColor(eyeColor)
-//                        .hasFur(hasFur)
-//                        .build());
-//            } else if (type == Barrel.class) {
-//                String[] parts = input.split(",");
-//                int volume = Integer.parseInt(parts[0]);
-//                String material = parts[1];
-//                String storedMaterial = parts[2];
-//                return type.cast(new Barrel.Builder()
-//                        .volume(volume)
-//                        .storedMaterial(storedMaterial)
-//                        .material(material)
-//                        .build());
-//            } else if (type == Person.class) {
-//                String[] parts = input.split(",");
-//                String gender = parts[0];
-//                int age = Integer.parseInt(parts[1]);
-//                String lastName = parts[2];
-//                return type.cast(new Person.Builder()
-//                        .gender(gender)
-//                        .age(age)
-//                        .lastName(lastName)
-//                        .build());
-//            } else {
-//                System.out.println();
-//                System.out.println("Неизвестный тип объекта.");
-//                return null;
-//            }
-//        } catch (Exception e) {
-//            System.out.println();
-//            System.out.println("Ошибка при разборе данных: " + e.getMessage());
-//            return null;
-//        }
-//    }
 }
