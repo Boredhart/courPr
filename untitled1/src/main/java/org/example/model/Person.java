@@ -1,35 +1,20 @@
 package org.example.model;
 
-import java.lang.Comparable;
+import lombok.Builder;
+import lombok.Data;
 
 /**
-Класс Person реализует интерфейс Comparable и представляет человека с полями пол, возраст и фамилия.
+ * Класс Person реализует интерфейс Comparable и представляет человека с полями пол, возраст и фамилия.
  */
+@Data
+@Builder
 public class Person implements Comparable<Person> {
     private final String gender; // пол
     private final int age; // возраст
     private final String lastName; // фамилия
 
-    private Person(Builder builder) {
-        this.gender = builder.gender;
-        this.age = builder.age;
-        this.lastName = builder.lastName;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
     /**
-    Метод compareTo сравнивает Person по фамилии, полу и возрасту.
+     * Метод compareTo сравнивает Person по фамилии, полу и возрасту.
      */
     public int compareTo(Person other) {
         int result = this.lastName.compareTo(other.lastName);
@@ -45,33 +30,5 @@ public class Person implements Comparable<Person> {
         return "Человек - Пол: " + gender +
                 ", Возраст: " + age +
                 ", Фамилия: " + lastName;
-    }
-
-    /**
-     * Вложенный статический класс Builder используется для пошагового создания объекта класса Person.
-     */
-    public static class Builder {
-        private String gender;
-        private int age;
-        private String lastName;
-
-        public Builder gender(String gender) {
-            this.gender = gender;
-            return this;
-        }
-
-        public Builder age(int age) {
-            this.age = age;
-            return this;
-        }
-
-        public Builder lastName(String lastName) {
-            this.lastName = lastName;
-            return this;
-        }
-
-        public Person build() {
-            return new Person(this);
-        }
     }
 }

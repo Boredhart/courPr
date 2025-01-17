@@ -1,20 +1,18 @@
 package org.example;
+
+import org.example.Sorted.CustomSort;
+import org.example.Sorted.TimSort;
 import org.example.input.InputService;
 import org.example.model.Animal;
 import org.example.model.Barrel;
 import org.example.model.Person;
-import org.example.Sorted.CustomSort;
-import org.example.Sorted.TimSort;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Scanner;
 
-
-import java.util.*;
-
-
 public class App {
-    public static void main( String[] args ) {
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
         boolean flag = true;
@@ -72,11 +70,11 @@ public class App {
 
         if (sortType > 0 && sortType < 3) {
             if (type == Animal.class) {
-                comparator = (Comparator<T>) (sortType == 1 ? CustomSort.getAnimalComparator() : CustomSort.getCustomAnimalComparator());
+                comparator = (Comparator<T>) (sortType == 1 ? Comparator.naturalOrder() : CustomSort.getCustomAnimalComparator());
             } else if (type == Barrel.class) {
-                comparator = (Comparator<T>) (sortType == 1 ? CustomSort.getBarrelComparator() : CustomSort.getCustomBarrelComparator());
+                comparator = (Comparator<T>) (sortType == 1 ? Comparator.naturalOrder() : CustomSort.getCustomBarrelComparator());
             } else if (type == Person.class) {
-                comparator = (Comparator<T>) (sortType == 1 ? CustomSort.getPersonComparator() : CustomSort.getCustomPersonComparator());
+                comparator = (Comparator<T>) (sortType == 1 ? Comparator.naturalOrder() : CustomSort.getCustomPersonComparator());
             } else {
                 System.out.println("Неизвестный тип объекта.");
                 return;
@@ -146,7 +144,7 @@ public class App {
                 String species = fields[0].trim();
                 String eyeColor = fields[1].trim();
                 boolean hasFur = Boolean.parseBoolean(fields[2].trim());
-                return type.cast(new Animal.Builder()
+                return type.cast(Animal.builder()
                         .species(species)
                         .eyeColor(eyeColor)
                         .hasFur(hasFur)
@@ -155,7 +153,7 @@ public class App {
                 int volume = Integer.parseInt(fields[0]);
                 String material = fields[1].trim();
                 String storedMaterial = fields[2].trim();
-                return type.cast(new Barrel.Builder()
+                return type.cast(Barrel.builder()
                         .volume(volume)
                         .storedMaterial(storedMaterial)
                         .material(material)
@@ -164,7 +162,7 @@ public class App {
                 String gender = fields[0].trim();
                 int age = Integer.parseInt(fields[1]);
                 String lastName = fields[2].trim();
-                return type.cast(new Person.Builder()
+                return type.cast(Person.builder()
                         .gender(gender)
                         .age(age)
                         .lastName(lastName)

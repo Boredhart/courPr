@@ -68,15 +68,13 @@ public class InputService implements DataInputService {
                 animals[i] = (Animal) constructObject(type, input.get(i));
             }
             return (T[]) animals;
-        }
-        else if (type.equals(Barrel.class)) {
+        } else if (type.equals(Barrel.class)) {
             Barrel[] barrels = new Barrel[size];
             for (int i = 0; i < size; i++) {
                 barrels[i] = (Barrel) constructObject(type, input.get(i));
             }
             return (T[]) barrels;
-        }
-        else if (type.equals(Person.class)) {
+        } else if (type.equals(Person.class)) {
             Person[] people = new Person[size];
             for (int i = 0; i < size; i++) {
                 people[i] = (Person) constructObject(type, input.get(i));
@@ -88,7 +86,7 @@ public class InputService implements DataInputService {
     }
 
     @Override
-    public <T> List<String> getInputFromConsole(int size){
+    public <T> List<String> getInputFromConsole(int size) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter " + size + " lines of data separated by ','");
         System.out.println("Example:");
@@ -107,25 +105,28 @@ public class InputService implements DataInputService {
         String[] fields = data.split(",");
         try {
             if (type.equals(Animal.class)) {
-                Animal.Builder builder = new Animal.Builder();
-                builder.species(fields[0].trim());
-                builder.eyeColor(fields[1].trim());
-                builder.hasFur(Boolean.parseBoolean(fields[2].trim()));
-                return (T) builder.build();
+                Animal builder = Animal.builder()
+                        .species(fields[0].trim())
+                        .eyeColor(fields[1].trim())
+                        .hasFur(Boolean.parseBoolean(fields[2].trim()))
+                        .build();
+                return (T) builder;
 
             } else if (type.equals(Barrel.class)) {
-                Barrel.Builder builder = new Barrel.Builder();
-                builder.volume(Integer.parseInt(fields[0].trim()));
-                builder.material(fields[1].trim());
-                builder.storedMaterial(fields[2].trim());
-                return (T) builder.build();
+                Barrel builder = Barrel.builder()
+                        .volume(Integer.parseInt(fields[0].trim()))
+                        .material(fields[1].trim())
+                        .storedMaterial(fields[2].trim())
+                        .build();
+                return (T) builder;
 
             } else if (type.equals(Person.class)) {
-                Person.Builder builder = new Person.Builder();
-                builder.gender(fields[0].trim());
-                builder.age(Integer.parseInt(fields[1].trim()));
-                builder.lastName(fields[2].trim());
-                return (T) builder.build();
+                Person builder = Person.builder()
+                        .gender(fields[0].trim())
+                        .age(Integer.parseInt(fields[1].trim()))
+                        .lastName(fields[2].trim())
+                        .build();
+                return (T) builder;
 
             } else {
                 throw new IllegalArgumentException("Unknown class type: " + type.getName());
@@ -147,8 +148,8 @@ public class InputService implements DataInputService {
                         String species = parts[0].trim();
                         String eyeColor = parts[1].trim();
                         boolean hasFur = Boolean.parseBoolean(parts[2].trim());
-                        if(DataValidator.isValidString(species) && DataValidator.isValidString(eyeColor))
-                            animals.add(new Animal.Builder()
+                        if (DataValidator.isValidString(species) && DataValidator.isValidString(eyeColor))
+                            animals.add(Animal.builder()
                                     .species(species)
                                     .eyeColor(eyeColor)
                                     .hasFur(hasFur)
@@ -158,8 +159,7 @@ public class InputService implements DataInputService {
                     } catch (IllegalArgumentException e) {
                         System.err.println("Incorrect format of logic field, skip line: " + line);
                     }
-                }
-                else {
+                } else {
                     System.err.println("Incorrect format line, skip line: " + line);
                 }
             }
@@ -181,8 +181,8 @@ public class InputService implements DataInputService {
                         int volume = Integer.parseInt(parts[0].trim());
                         String material = parts[1].trim();
                         String storedMaterial = parts[2].trim();
-                        if(DataValidator.isValidString(material) && DataValidator.isValidString(storedMaterial))
-                            barrels.add(new Barrel.Builder()
+                        if (DataValidator.isValidString(material) && DataValidator.isValidString(storedMaterial))
+                            barrels.add(Barrel.builder()
                                     .volume(volume)
                                     .material(material)
                                     .storedMaterial(storedMaterial)
@@ -212,8 +212,8 @@ public class InputService implements DataInputService {
                         String gender = parts[0].trim();
                         int age = Integer.parseInt(parts[1].trim());
                         String lastName = parts[2].trim();
-                        if(DataValidator.isValidString(gender) && DataValidator.isValidString(lastName))
-                            persons.add(new Person.Builder()
+                        if (DataValidator.isValidString(gender) && DataValidator.isValidString(lastName))
+                            persons.add(Person.builder()
                                     .gender(gender)
                                     .age(age)
                                     .lastName(lastName)
@@ -237,7 +237,7 @@ public class InputService implements DataInputService {
         String[] species = {"Dog", "Cat", "Bird", "Fish", "Rabbit"};
         String[] eyeColors = {"Blue", "Green", "Brown", "Black", "Gray"};
         for (int i = 0; i < size; i++) {
-            animals[i] = new Animal.Builder()
+            animals[i] = Animal.builder()
                     .species(species[random.nextInt(species.length)])
                     .eyeColor(eyeColors[random.nextInt(eyeColors.length)])
                     .hasFur(random.nextBoolean())
@@ -251,7 +251,7 @@ public class InputService implements DataInputService {
         String[] materials = {"Wood", "Metal", "Plastic", "Gold"};
         String[] storedMaterials = {"Water", "Oil", "Wine", "Grain"};
         for (int i = 0; i < size; i++) {
-            barrels[i] = new Barrel.Builder()
+            barrels[i] = Barrel.builder()
                     .volume(random.nextInt(1000))
                     .material(materials[random.nextInt(materials.length)])
                     .storedMaterial(storedMaterials[random.nextInt(storedMaterials.length)])
@@ -265,7 +265,7 @@ public class InputService implements DataInputService {
         String[] genders = {"Male", "Female"};
         String[] lastNames = {"Julian", "Dima", "Sergey", "Anton", "Ars"};
         for (int i = 0; i < size; i++) {
-            people[i] = new Person.Builder()
+            people[i] = Person.builder()
                     .gender(genders[random.nextInt(genders.length)])
                     .age(random.nextInt(100))
                     .lastName(lastNames[random.nextInt(lastNames.length)])

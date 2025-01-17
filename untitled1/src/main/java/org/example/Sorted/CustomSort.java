@@ -12,17 +12,8 @@ import java.util.Comparator;
 public class CustomSort {
 
     /**
-     * Возвращает компаратор для объектов Animal, который сравнивает их по виду, затем по цвету глаз и, наконец, по наличию шерсти.
-     * @return компаратор для объектов Animal
-     */
-    public static Comparator<Animal> getAnimalComparator() {
-        return Comparator.comparing(Animal::getSpecies)
-                .thenComparing(Animal::getEyeColor)
-                .thenComparing(Animal::hasFur);
-    }
-
-    /**
      * Возвращает компаратор для объектов Animal, который сравнивает их по виду, затем по наличию шерсти (с животными без шерсти, идущими первыми), и, наконец, по цвету глаз.
+     *
      * @return компаратор для объектов Animal
      */
     public static Comparator<Animal> getCustomAnimalComparator() {
@@ -32,17 +23,8 @@ public class CustomSort {
     }
 
     /**
-     * Возвращает компаратор для объектов Barrel, который сравнивает их по объему, затем по материалу, который они хранят, и, наконец, по тому, из чего они сделаны.
-     * @return компаратор для объектов Barrel
-     */
-    public static Comparator<Barrel> getBarrelComparator() {
-        return Comparator.comparingDouble(Barrel::getVolume)
-                .thenComparing(Barrel::getStoredMaterial)
-                .thenComparing(Barrel::getMaterial);
-    }
-
-    /**
      * Возвращает компаратор для объектов Barrel, который сравнивает их по объему, затем по тому, является ли их объем четным или нечетным (с бочками с четными объемами, идущими первыми), и, наконец, по тому, из чего они сделаны.
+     *
      * @return компаратор для объектов Barrel
      */
     public static Comparator<Barrel> getCustomBarrelComparator() {
@@ -60,17 +42,8 @@ public class CustomSort {
     }
 
     /**
-     * Возвращает компаратор для объектов Person, который сравнивает их по полу, затем по возрасту и, наконец, по фамилии.
-     * @return компаратор для объектов Person
-     */
-    public static Comparator<Person> getPersonComparator() {
-        return Comparator.comparing(Person::getGender)
-                .thenComparingInt(Person::getAge)
-                .thenComparing(Person::getLastName);
-    }
-
-    /**
      * Возвращает компаратор для объектов Person, который сравнивает их по возрасту, затем по тому, является ли их возраст четным или нечетным (с людьми с четным возрастом, идущими первыми), и, наконец, по фамилии.
+     *
      * @return компаратор для объектов Person
      */
     public static Comparator<Person> getCustomPersonComparator() {
