@@ -18,6 +18,10 @@ public class InputService implements DataInputService {
     public <T> T[] readFromFile(String filePath, Class<T> type) {
         File file = new File(filePath);
 
+        if (filePath.isEmpty()) {
+            return null;
+        }
+
         if (type.equals(Animal.class)) {
             return (T[]) readAnimalFromFile(file);
         } else if (type.equals(Barrel.class)) {
@@ -164,7 +168,7 @@ public class InputService implements DataInputService {
                 }
             }
         } catch (FileNotFoundException e) {
-            System.err.println("File not founded: " + file.getAbsolutePath());
+            System.err.println("File not found: " + file.getAbsolutePath());
             return new Animal[0];
         }
         return animals.toArray(new Animal[0]);
@@ -195,7 +199,7 @@ public class InputService implements DataInputService {
                 }
             }
         } catch (FileNotFoundException e) {
-            System.err.println("File not founded: " + file.getAbsolutePath());
+            System.err.println("File not found: " + file.getAbsolutePath());
             return new Barrel[0];
         }
         return barrels.toArray(new Barrel[0]);
@@ -226,7 +230,7 @@ public class InputService implements DataInputService {
                 }
             }
         } catch (FileNotFoundException e) {
-            System.err.println("File not founded: " + file.getAbsolutePath());
+            System.err.println("File not found: " + file.getAbsolutePath());
             return new Person[0];
         }
         return persons.toArray(new Person[0]);
