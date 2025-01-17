@@ -18,8 +18,8 @@ public class Barrel implements Comparable<Barrel> {
      */
     public int compareTo(Barrel other) {
         int result = Integer.compare(this.volume, other.volume);
-        if (result == 0) result = this.material.compareTo(other.material);
-        if (result == 0) result = this.storedMaterial.compareTo(other.storedMaterial);
+        if (result == 0) result = this.material.compareToIgnoreCase(other.material);
+        if (result == 0) result = this.storedMaterial.compareToIgnoreCase(other.storedMaterial);
         return result;
     }
 
