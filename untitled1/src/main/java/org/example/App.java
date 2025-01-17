@@ -92,7 +92,7 @@ public class App {
 
             // Бинарный поиск
             System.out.println("Введите ключ для бинарного поиска:");
-            String key = scanner.nextLine();
+            String key = scanner.nextLine().toLowerCase();
             T keyObject = parseKey(key, type);
             if (keyObject != null) {
                 BinarySearch<T> binarySearch = new BinarySearch<>();
@@ -143,9 +143,9 @@ public class App {
         try {
             String[] fields = key.split(",");
             if (type == Animal.class) {
-                String species = fields[0];
-                String eyeColor = fields[1];
-                boolean hasFur = Boolean.parseBoolean(fields[2]);
+                String species = fields[0].trim();
+                String eyeColor = fields[1].trim();
+                boolean hasFur = Boolean.parseBoolean(fields[2].trim());
                 return type.cast(new Animal.Builder()
                         .species(species)
                         .eyeColor(eyeColor)
@@ -153,17 +153,17 @@ public class App {
                         .build());
             } else if (type == Barrel.class) {
                 int volume = Integer.parseInt(fields[0]);
-                String material = fields[1];
-                String storedMaterial = fields[2];
+                String material = fields[1].trim();
+                String storedMaterial = fields[2].trim();
                 return type.cast(new Barrel.Builder()
                         .volume(volume)
                         .storedMaterial(storedMaterial)
                         .material(material)
                         .build());
             } else if (type == Person.class) {
-                String gender = fields[0];
+                String gender = fields[0].trim();
                 int age = Integer.parseInt(fields[1]);
-                String lastName = fields[2];
+                String lastName = fields[2].trim();
                 return type.cast(new Person.Builder()
                         .gender(gender)
                         .age(age)

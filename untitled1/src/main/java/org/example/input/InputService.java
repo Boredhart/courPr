@@ -46,6 +46,22 @@ public class InputService implements DataInputService {
     public <T> T[] readFromConsole(int size, Class<T> type) {
         List<String> input = getInputFromConsole(size);
 
+
+//        for (int i = 0; i < size; i++) {
+//            System.out.println();
+//            System.out.println("Введите данные для элемента " + (i + 1) + ":");
+//            String input = scanner.nextLine();
+//            T obj = parseKey(input, type);
+//            if (obj != null) {
+//                array[i] = obj;
+//            } else {
+//                System.out.println();
+//                System.out.println("Ошибка при вводе данных.");
+//                i--;
+//            }
+//        }
+
+
         if (type.equals(Animal.class)) {
             Animal[] animals = new Animal[size];
             for (int i = 0; i < size; i++) {
