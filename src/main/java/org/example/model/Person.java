@@ -1,10 +1,5 @@
 package org.example.model;
 
-import java.lang.Comparable;
-
-/**
-Класс Person реализует интерфейс Comparable и представляет человека с полями пол, возраст и фамилия.
- */
 public class Person implements Comparable<Person> {
     private final String gender; // пол
     private final int age; // возраст
@@ -28,9 +23,6 @@ public class Person implements Comparable<Person> {
         return lastName;
     }
 
-    /**
-    Метод compareTo сравнивает Person по фамилии, полу и возрасту.
-     */
     public int compareTo(Person other) {
         int result = this.lastName.compareTo(other.lastName);
         if (result == 0) result = this.gender.compareTo(other.gender);
@@ -38,18 +30,12 @@ public class Person implements Comparable<Person> {
         return result;
     }
 
-    /**
-     * Метод toString возвращает строку с информацией о человеке.
-     */
     public String toString() {
         return "Человек - Пол: " + gender +
                 ", Возраст: " + age +
                 ", Фамилия: " + lastName;
     }
 
-    /**
-     * Вложенный статический класс Builder используется для пошагового создания объекта класса Person.
-     */
     public static class Builder {
         private String gender;
         private int age;
