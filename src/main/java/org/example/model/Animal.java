@@ -24,8 +24,8 @@ public class Animal implements Comparable<Animal> {
 
     @Override
     public int compareTo(Animal other) {
-        int result = this.species.compareTo(other.species);
-        if (result == 0) result = this.eyeColor.compareTo(other.eyeColor);
+        int result = this.species.compareToIgnoreCase(other.species);
+        if (result == 0) result = this.eyeColor.compareToIgnoreCase(other.eyeColor);
         if (result == 0) result = Boolean.compare(this.hasFur, other.hasFur);
         return result;
     }

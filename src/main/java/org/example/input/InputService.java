@@ -94,8 +94,8 @@ public class InputService implements DataInputService {
     @Override
     public <T> List<String> getInputFromConsole(int size){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter " + size + " lines of data separated by ','");
-        System.out.println("Example:");
+        System.out.println("Введите " + size + " строк данных разделенных через ','");
+        System.out.println("Пример:");
         System.out.println("Animal - Dog,Brown,true ");
         System.out.println("Barrel - Wood,Water,1000");
         System.out.println("Person - Male,Dima,25");
@@ -112,23 +112,29 @@ public class InputService implements DataInputService {
         try {
             if (type.equals(Animal.class)) {
                 Animal.Builder builder = new Animal.Builder();
-                builder.species(fields[0].trim());
-                builder.eyeColor(fields[1].trim());
+                String species = fields[0].trim();
+                builder.species(species.substring(0, 1).toUpperCase() + species.substring(1));
+                String eye = fields[1].trim();
+                builder.eyeColor(eye.substring(0, 1).toUpperCase() + eye.substring(1));
                 builder.hasFur(Boolean.parseBoolean(fields[2].trim()));
                 return (T) builder.build();
 
             } else if (type.equals(Barrel.class)) {
                 Barrel.Builder builder = new Barrel.Builder();
                 builder.volume(Integer.parseInt(fields[0].trim()));
-                builder.material(fields[1].trim());
-                builder.storedMaterial(fields[2].trim());
+                String mat = fields[1].trim();
+                builder.material(mat.substring(0, 1).toUpperCase() + mat.substring(1));
+                String sortMat = fields[2].trim();
+                builder.storedMaterial(sortMat.substring(0, 1).toUpperCase() + sortMat.substring(1));
                 return (T) builder.build();
 
             } else if (type.equals(Person.class)) {
                 Person.Builder builder = new Person.Builder();
-                builder.gender(fields[0].trim());
+                String gender = fields[0].trim();
+                builder.gender(gender.substring(0, 1).toUpperCase() + gender.substring(1));
                 builder.age(Integer.parseInt(fields[1].trim()));
-                builder.lastName(fields[2].trim());
+                String lastName = fields[2].trim();
+                builder.lastName(lastName.substring(0, 1).toUpperCase() + lastName.substring(1));
                 return (T) builder.build();
 
             } else {

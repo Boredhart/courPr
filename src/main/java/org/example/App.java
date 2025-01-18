@@ -154,7 +154,7 @@ public class App {
         if (searchChoice == 1) {
             // Бинарный поиск
             System.out.println();
-            System.out.println("Введите ключ для бинарного поиска. Регистр важен!");
+            System.out.println("Введите ключ для бинарного поиска. Регистр не важен. Пример: bird,red,true");
             String key = scanner.nextLine();
             T keyObject = parseKey(key, type);
             T foundElement = null;
@@ -180,7 +180,7 @@ public class App {
         }
     }
 
-    private static <T> void repeat(Scanner scanner) {
+    private static void repeat(Scanner scanner) {
         System.out.println();
         System.out.println("Объект не найден. Повторить?");
         System.out.println("1. Да.");
@@ -220,6 +220,10 @@ public class App {
                 flag = outputService.writeLineToFile(searchFilePath, foundElement.toString());
                 System.out.println();
             } while (flag);
+        } else if (saveChoice == 2) {
+            System.out.println();
+            System.out.println("Возврат в начало.");
+            cycle(scanner, true);
         } else {
             System.out.println();
             System.out.println("Неверный выбор. Повторите попытку.");

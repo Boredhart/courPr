@@ -16,8 +16,8 @@ public class CustomSort {
      * @return компаратор для объектов Animal
      */
     public static Comparator<Animal> getAnimalComparator() {
-        return Comparator.comparing(Animal::getSpecies)
-                .thenComparing(Animal::getEyeColor)
+        return Comparator.comparing(Animal::getSpecies, String::compareToIgnoreCase)
+                .thenComparing(Animal::getEyeColor, String::compareToIgnoreCase)
                 .thenComparing(Animal::hasFur);
     }
 
@@ -26,9 +26,9 @@ public class CustomSort {
      * @return компаратор для объектов Animal
      */
     public static Comparator<Animal> getCustomAnimalComparator() {
-        return Comparator.comparing(Animal::getSpecies)
+        return Comparator.comparing(Animal::getSpecies, String::compareToIgnoreCase)
                 .thenComparing((a1, a2) -> Boolean.compare(!a1.hasFur(), !a2.hasFur()))
-                .thenComparing(Animal::getEyeColor);
+                .thenComparing(Animal::getEyeColor, String::compareToIgnoreCase);
     }
 
     /**
@@ -37,8 +37,8 @@ public class CustomSort {
      */
     public static Comparator<Barrel> getBarrelComparator() {
         return Comparator.comparingDouble(Barrel::getVolume)
-                .thenComparing(Barrel::getStoredMaterial)
-                .thenComparing(Barrel::getMaterial);
+                .thenComparing(Barrel::getStoredMaterial, String::compareToIgnoreCase)
+                .thenComparing(Barrel::getMaterial, String::compareToIgnoreCase);
     }
 
     /**
@@ -56,7 +56,7 @@ public class CustomSort {
                         return b1.getVolume() % 2 == 0 ? -1 : 1;
                     }
                 })
-                .thenComparing(Barrel::getMaterial);
+                .thenComparing(Barrel::getMaterial, String::compareToIgnoreCase);
     }
 
     /**
@@ -64,9 +64,9 @@ public class CustomSort {
      * @return компаратор для объектов Person
      */
     public static Comparator<Person> getPersonComparator() {
-        return Comparator.comparing(Person::getGender)
+        return Comparator.comparing(Person::getGender, String::compareToIgnoreCase)
                 .thenComparingInt(Person::getAge)
-                .thenComparing(Person::getLastName);
+                .thenComparing(Person::getLastName, String::compareToIgnoreCase);
     }
 
     /**
@@ -84,6 +84,6 @@ public class CustomSort {
                         return p1.getAge() % 2 == 0 ? -1 : 1;
                     }
                 })
-                .thenComparing(Person::getLastName);
+                .thenComparing(Person::getLastName, String::compareToIgnoreCase);
     }
 }

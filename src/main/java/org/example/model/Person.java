@@ -24,8 +24,8 @@ public class Person implements Comparable<Person> {
     }
 
     public int compareTo(Person other) {
-        int result = this.lastName.compareTo(other.lastName);
-        if (result == 0) result = this.gender.compareTo(other.gender);
+        int result = this.lastName.compareToIgnoreCase(other.lastName);
+        if (result == 0) result = this.gender.compareToIgnoreCase(other.gender);
         if (result == 0) result = Integer.compare(this.age, other.age);
         return result;
     }
