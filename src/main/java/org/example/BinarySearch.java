@@ -35,6 +35,7 @@ public class BinarySearch<T> {
             } else if (result > 0) { // поиск в правой части массива
                 low = mid + 1;
             } else {
+                System.out.println();
                 System.out.println("Элемент найден: " + val);
                 return mid;
             }
@@ -46,6 +47,7 @@ public class BinarySearch<T> {
         try {
             int index = binarySearch(arr, key, comparator);
             if (index == -1) {
+                System.out.println();
                 System.err.println("Элемент не найден: " + key);
                 return null;
             } else {
