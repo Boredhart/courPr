@@ -1,16 +1,10 @@
 package org.example;
+
 import org.example.input.InputService;
-import org.example.model.Animal;
-import org.example.model.Barrel;
-import org.example.model.Person;
-import org.example.Sorted.CustomSort;
-import org.example.Sorted.TimSort;
+import org.example.model.*;
+import org.example.Sorted.*;
 import org.example.output.OutputService;
 import java.util.*;
-import java.util.Comparator;
-import java.util.Scanner;
-
-
 
 
 public class App {
