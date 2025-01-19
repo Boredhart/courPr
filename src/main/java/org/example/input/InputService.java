@@ -50,25 +50,10 @@ public class InputService implements DataInputService {
     public <T> T[] readFromConsole(int size, Class<T> type) {
         List<String> input = getInputFromConsole(size);
 
-
-//        for (int i = 0; i < size; i++) {
-//            System.out.println();
-//            System.out.println("Введите данные для элемента " + (i + 1) + ":");
-//            String input = scanner.nextLine();
-//            T obj = parseKey(input, type);
-//            if (obj != null) {
-//                array[i] = obj;
-//            } else {
-//                System.out.println();
-//                System.out.println("Ошибка при вводе данных.");
-//                i--;
-//            }
-//        }
-
-
         if (type.equals(Animal.class)) {
             Animal[] animals = new Animal[size];
             for (int i = 0; i < size; i++) {
+                System.out.println("Введите информацию для объекта " + (i + 1) + ":");
                 animals[i] = (Animal) constructObject(type, input.get(i));
             }
             return (T[]) animals;
@@ -76,6 +61,7 @@ public class InputService implements DataInputService {
         else if (type.equals(Barrel.class)) {
             Barrel[] barrels = new Barrel[size];
             for (int i = 0; i < size; i++) {
+                System.out.println("Введите информацию для объекта " + (i + 1) + ":");
                 barrels[i] = (Barrel) constructObject(type, input.get(i));
             }
             return (T[]) barrels;
@@ -83,6 +69,7 @@ public class InputService implements DataInputService {
         else if (type.equals(Person.class)) {
             Person[] people = new Person[size];
             for (int i = 0; i < size; i++) {
+                System.out.println("Введите информацию для объекта " + (i + 1) + ":");
                 people[i] = (Person) constructObject(type, input.get(i));
             }
             return (T[]) people;
@@ -277,7 +264,7 @@ public class InputService implements DataInputService {
         for (int i = 0; i < size; i++) {
             people[i] = new Person.Builder()
                     .gender(genders[random.nextInt(genders.length)])
-                    .age(random.nextInt(100))
+                    .age(random.nextInt(1,101))
                     .lastName(lastNames[random.nextInt(lastNames.length)])
                     .build();
         }

@@ -1,4 +1,4 @@
-package org.example.Sorted;
+package org.example.sorted;
 
 import org.example.model.Animal;
 import org.example.model.Barrel;
