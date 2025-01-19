@@ -2,9 +2,11 @@ package org.example;
 
 import org.example.input.InputService;
 import org.example.model.*;
-import org.example.Sorted.*;
+import org.example.sorted.*;
 import org.example.output.OutputService;
 import java.util.*;
+
+import static org.example.input.DataValidator.enterNum;
 
 
 public class App {
@@ -20,6 +22,8 @@ public class App {
             System.out.println();
             System.out.println("Выберите действие:");
             System.out.println("1. Создать массив объектов.");
+            System.out.println();
+            System.out.println("-----------------------------");
             System.out.println("5. Выйти.");
             System.out.print("Ваш выбор: ");
 
@@ -40,12 +44,14 @@ public class App {
         }
     }
 
-    private static <T> void processObjectType(Scanner scanner) {
+    private static void processObjectType(Scanner scanner) {
         System.out.println();
         System.out.println("Выберите тип объекта:");
         System.out.println("1. Animal");
         System.out.println("2. Barrel");
         System.out.println("3. Person");
+        System.out.println();
+        System.out.println("-----------------------------");
         System.out.println("4. Назад.");
         System.out.println("5. Выйти.");
         System.out.print("Ваш выбор: ");
@@ -89,7 +95,9 @@ public class App {
         System.out.println("1. Вручную.");
         System.out.println("2. Из файла.");
         System.out.println("3. Случайно.");
-        System.out.println("4. Вернуться к предыдущему шагу.");
+        System.out.println();
+        System.out.println("-----------------------------");
+        System.out.println("4. Назад.");
         System.out.println("5. Выйти.");
         System.out.print("Ваш выбор: ");
         int dataSource = scanner.nextInt();
@@ -99,10 +107,13 @@ public class App {
 
         switch (dataSource) {
             case 1:
-                System.out.println();
-                System.out.print("Введите количество элементов: ");
-                int manualSize = scanner.nextInt();
-                scanner.nextLine();
+                int manualSize = enterNum(scanner);
+
+                while (manualSize == -919793) {
+                    System.out.println("Ошибка ввода: пожалуйста, введите целое число больше 0.");
+                    manualSize = enterNum(scanner);
+                }
+
                 return inputService.readFromConsole(manualSize, type);
             case 2:
                 System.out.println();
@@ -147,6 +158,8 @@ public class App {
         System.out.println("Выберите тип сортировки:");
         System.out.println("1. Обычная");
         System.out.println("2. Кастомная");
+        System.out.println();
+        System.out.println("-----------------------------");
         System.out.println("4. Назад.");
         System.out.println("5. Выйти.");
         System.out.print("Ваш выбор: ");
@@ -168,15 +181,21 @@ public class App {
                 return;
             }
 
+            try {
+                // Сортировка массива
+                TimSort<T> timSort = new TimSort<>();
+                timSort.sort(dataArray, comparator);
+                System.out.println();
+                System.out.println("Отсортированный массив: ");
+                Arrays.stream(dataArray).forEach(System.out::println);
 
-            // Сортировка массива
-            TimSort<T> timSort = new TimSort<>();
-            timSort.sort(dataArray, comparator);
-            System.out.println();
-            System.out.println("Отсортированный массив: ");
-            Arrays.stream(dataArray).forEach(System.out::println);
+                saveRequest(scanner, outputService, type, dataArray, comparator);
+            } catch (NullPointerException e) {
+                System.out.println();
+                System.out.println("Массив пуст. Попробуйте еще раз.");
+                getDataArray(scanner, type);
+            }
 
-            saveRequest(scanner, outputService, type, dataArray, comparator);
 
         } else if (sortType == 4) {
             System.out.println();
@@ -200,6 +219,8 @@ public class App {
         System.out.println("Хотите сохранить отсортированный массив?");
         System.out.println("1. Да.");
         System.out.println("2. Нет.");
+        System.out.println();
+        System.out.println("-----------------------------");
         System.out.println("4. Назад.");
         System.out.println("5. Выйти.");
         System.out.print("Ваш выбор: ");
@@ -246,6 +267,8 @@ public class App {
         System.out.println("Хотите найти элемент в массиве?");
         System.out.println("1. Да.");
         System.out.println("2. Нет.");
+        System.out.println();
+        System.out.println("-----------------------------");
         System.out.println("4. Назад.");
         System.out.println("5. Выход.");
         System.out.print("Ваш выбор: ");
@@ -254,24 +277,7 @@ public class App {
 
         switch (searchChoice) {
             case 1:
-                // Бинарный поиск
-                System.out.println();
-                System.out.println("Введите ключ для бинарного поиска. Регистр не важен. Пример: bird,red,true");
-                String key = scanner.nextLine();
-                T keyObject = parseKey(key, type);
-                T foundElement = null;
-
-                if (keyObject != null) {
-                    BinarySearch<T> binarySearch = new BinarySearch<>();
-                    foundElement = binarySearch.findElement(dataArray, keyObject, comparator);
-                    System.out.println();
-                }
-
-                if (foundElement != null) {
-                    saveRequestSolo(scanner, foundElement, outputService);
-                } else {
-                    repeat(scanner, type, dataArray, comparator, outputService);
-                }
+                binarySearch(scanner, type, dataArray, comparator, outputService);
                 break;
             case 2:
                 System.out.println();
@@ -293,37 +299,41 @@ public class App {
         }
     }
 
+    public static <T> void binarySearch(Scanner scanner, Class<T> type, T[] dataArray, Comparator<T> comparator, OutputService outputService) {
+        // Бинарный поиск
+        System.out.println();
+        System.out.println("Введите ключ для бинарного поиска. Регистр не важен. Пример: bird,red,true");
+        String key = scanner.nextLine();
+        T keyObject = parseKey(key, type);
+        T foundElement = null;
+
+        if (keyObject != null) {
+            BinarySearch<T> binarySearch = new BinarySearch<>();
+            foundElement = binarySearch.findElement(dataArray, keyObject, comparator);
+            System.out.println();
+        }
+
+        if (foundElement != null) {
+            saveRequestSolo(scanner, foundElement, outputService, type, dataArray, comparator);
+        } else {
+            repeat(scanner, type, dataArray, comparator, outputService);
+        }
+    }
+
     private static <T> void repeat(Scanner scanner, Class<T> type, T[] dataArray, Comparator<T> comparator, OutputService outputService) {
         System.out.println();
         System.out.println("Объект не найден. Повторить?");
         System.out.println("1. Да.");
         System.out.println("2. Нет.");
+        System.out.println();
+        System.out.println("-----------------------------");
         System.out.println("5. Выйти.");
         System.out.print("Ваш выбор:");
         int repeat = scanner.nextInt();
         scanner.nextLine();
 
         switch (repeat) {
-            case 1 -> {
-                // Бинарный поиск
-                System.out.println();
-                System.out.println("Введите ключ для бинарного поиска. Регистр не важен. Пример: bird,red,true");
-                String key = scanner.nextLine();
-                T keyObject = parseKey(key, type);
-                T foundElement = null;
-
-                if (keyObject != null) {
-                    BinarySearch<T> binarySearch = new BinarySearch<>();
-                    foundElement = binarySearch.findElement(dataArray, keyObject, comparator);
-                    System.out.println();
-                }
-
-                if (foundElement != null) {
-                    saveRequestSolo(scanner, foundElement, outputService);
-                } else {
-                    repeat(scanner, type, dataArray, comparator, outputService);
-                }
-            }
+            case 1 -> binarySearch(scanner, type, dataArray, comparator, outputService);
             case 2 -> {
                 System.out.println();
                 System.out.println("Возврат в начало.");
@@ -341,12 +351,14 @@ public class App {
         }
     }
 
-    private static <T> void saveRequestSolo(Scanner scanner, T foundElement, OutputService outputService) {
+    private static <T> void saveRequestSolo(Scanner scanner, T foundElement, OutputService outputService, Class<T> type, T[] dataArray, Comparator<T> comparator) {
         System.out.println();
         System.out.println("Хотите записать найденный элемент в документ?");
         System.out.println("1. Да.");
         System.out.println("2. Нет.");
-        System.out.println("2. Нет.");
+        System.out.println();
+        System.out.println("-----------------------------");
+        System.out.println("4. Назад.");
         System.out.println("5. Выйти.");
         System.out.print("Ваш выбор: ");
         int saveChoice = scanner.nextInt();
@@ -369,6 +381,9 @@ public class App {
                 System.out.println("Возврат в начало.");
                 cycle(scanner, true);
                 break;
+            case 4:
+                binarySearch(scanner, type, dataArray, comparator, outputService);
+                break;
             case 5:
                 System.out.println();
                 System.out.println("Выход из программы...");
@@ -376,11 +391,9 @@ public class App {
             default:
                 System.out.println();
                 System.out.println("Неверный выбор. Повторите попытку.");
-                saveRequestSolo(scanner, foundElement, outputService);
+                saveRequestSolo(scanner, foundElement, outputService, type, dataArray, comparator);
         }
     }
-
-
 
     private static <T> T parseKey(String key, Class<T> type) {
         try {
