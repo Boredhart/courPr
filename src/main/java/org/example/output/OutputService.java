@@ -7,7 +7,7 @@ import java.util.List;
 
 
 
-public class OutputService implements DataOutputservice{
+public class OutputService implements DataOutputStrategy {
 
     /**
      * Записывает коллекцию в файл в режиме добавления.

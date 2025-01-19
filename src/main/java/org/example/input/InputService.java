@@ -45,45 +45,6 @@ public class InputService implements DataInputService {
         }
     }
 
-    public boolean isValidAnimalData(String data) {
-
-        // Логика проверки корректности данных для Animal
-        String[] fields = data.split(",");
-        if (fields.length != 3) {
-            return false;
-        }
-        String species = fields[0].trim();
-        String eyeColor = fields[1].trim();
-        String hasFur = fields[2].trim();
-        return isValidString(species) && isValidString(eyeColor) && isValidBoolean(hasFur);
-    }
-
-    private boolean isValidBarrelData(String data) {
-
-        // Логика проверки корректности данных для Barrel
-        String[] fields = data.split(",");
-        if (fields.length != 3) {
-            return false;
-        }
-        String volume = fields[0].trim();
-        String material = fields[1].trim();
-        String storedMaterial = fields[2].trim();
-        return isValidInteger(volume) && isValidString(material) && isValidString(storedMaterial);
-    }
-
-    private boolean isValidPersonData(String data) {
-
-        // Логика проверки корректности данных для Person
-        String[] fields = data.split(",");
-        if (fields.length != 3) {
-            return false;
-        }
-        String gender = fields[0].trim();
-        String age = fields[1].trim();
-        String lastName = fields[2].trim();
-        return isValidString(gender) && isValidInteger(age) && isValidString(lastName);
-    }
-
     @Override
     public <T> T[] readFromConsole(int size, Class<T> type) {
 
