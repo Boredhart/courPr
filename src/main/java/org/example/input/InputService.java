@@ -6,10 +6,9 @@ import org.example.model.Person;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
+
+import static org.example.input.DataValidator.*;
 
 public class InputService implements DataInputService {
     private final Random random = new Random();
@@ -46,14 +45,63 @@ public class InputService implements DataInputService {
         }
     }
 
+    public boolean isValidAnimalData(String data) {
+
+        // Логика проверки корректности данных для Animal
+        String[] fields = data.split(",");
+        if (fields.length != 3) {
+            return false;
+        }
+        String species = fields[0].trim();
+        String eyeColor = fields[1].trim();
+        String hasFur = fields[2].trim();
+        return isValidString(species) && isValidString(eyeColor) && isValidBoolean(hasFur);
+    }
+
+    private boolean isValidBarrelData(String data) {
+
+        // Логика проверки корректности данных для Barrel
+        String[] fields = data.split(",");
+        if (fields.length != 3) {
+            return false;
+        }
+        String volume = fields[0].trim();
+        String material = fields[1].trim();
+        String storedMaterial = fields[2].trim();
+        return isValidInteger(volume) && isValidString(material) && isValidString(storedMaterial);
+    }
+
+    private boolean isValidPersonData(String data) {
+
+        // Логика проверки корректности данных для Person
+        String[] fields = data.split(",");
+        if (fields.length != 3) {
+            return false;
+        }
+        String gender = fields[0].trim();
+        String age = fields[1].trim();
+        String lastName = fields[2].trim();
+        return isValidString(gender) && isValidInteger(age) && isValidString(lastName);
+    }
+
     @Override
     public <T> T[] readFromConsole(int size, Class<T> type) {
+
+        Scanner scanner = new Scanner(System.in);
+
         List<String> input = getInputFromConsole(size);
 
         if (type.equals(Animal.class)) {
             Animal[] animals = new Animal[size];
             for (int i = 0; i < size; i++) {
-                System.out.println("Введите информацию для объекта " + (i + 1) + ":");
+                String data = input.get(i);
+
+                // Проверка корректности данных для Animal
+                if (isValidAnimalData(data)) {
+                    animals[i] = (Animal) constructObject(type, data);
+                } else {
+                    System.out.println("Некорректные данные для животного, пропускаем ввод.");
+                }
                 animals[i] = (Animal) constructObject(type, input.get(i));
             }
             return (T[]) animals;
@@ -61,16 +109,28 @@ public class InputService implements DataInputService {
         else if (type.equals(Barrel.class)) {
             Barrel[] barrels = new Barrel[size];
             for (int i = 0; i < size; i++) {
-                System.out.println("Введите информацию для объекта " + (i + 1) + ":");
-                barrels[i] = (Barrel) constructObject(type, input.get(i));
+                String data = input.get(i);
+
+                // Проверка корректности данных для Barrel
+                if (isValidBarrelData(data)) {
+                    barrels[i] = (Barrel) constructObject(type, data);
+                } else {
+                    System.out.println("Некорректные данные для бочки, пропускаем ввод.");
+                }
             }
             return (T[]) barrels;
         }
         else if (type.equals(Person.class)) {
             Person[] people = new Person[size];
             for (int i = 0; i < size; i++) {
-                System.out.println("Введите информацию для объекта " + (i + 1) + ":");
-                people[i] = (Person) constructObject(type, input.get(i));
+                String data = input.get(i);
+
+                // Проверка корректности данных для Person
+                if (isValidPersonData(data)) {
+                    people[i] = (Person) constructObject(type, data);
+                } else {
+                    System.out.println("Некорректные данные для человека, пропускаем ввод.");
+                }
             }
             return (T[]) people;
         } else {
@@ -88,6 +148,7 @@ public class InputService implements DataInputService {
         System.out.println("Person - Male,Dima,25");
         List<String> input = new ArrayList<>();
         for (int i = 0; i < size; i++) {
+            System.out.println("Введите информацию для объекта " + (i + 1) + ":");
             String line = scanner.nextLine();
             input.add(line);
         }
@@ -128,7 +189,7 @@ public class InputService implements DataInputService {
                 throw new IllegalArgumentException("Unknown class type: " + type.getName());
             }
         } catch (Exception e) {
-            System.out.println("Incorrect input data: " + e);
+//            System.out.println("Incorrect input data: " + e);
             return null;
         }
     }
@@ -144,7 +205,7 @@ public class InputService implements DataInputService {
                         String species = parts[0].trim();
                         String eyeColor = parts[1].trim();
                         boolean hasFur = Boolean.parseBoolean(parts[2].trim());
-                        if(DataValidator.isValidString(species) && DataValidator.isValidString(eyeColor))
+                        if(isValidString(species) && isValidString(eyeColor))
                             animals.add(new Animal.Builder()
                                     .species(species)
                                     .eyeColor(eyeColor)
@@ -178,7 +239,7 @@ public class InputService implements DataInputService {
                         int volume = Integer.parseInt(parts[0].trim());
                         String material = parts[1].trim();
                         String storedMaterial = parts[2].trim();
-                        if(DataValidator.isValidString(material) && DataValidator.isValidString(storedMaterial))
+                        if(isValidString(material) && isValidString(storedMaterial))
                             barrels.add(new Barrel.Builder()
                                     .volume(volume)
                                     .material(material)
@@ -209,7 +270,7 @@ public class InputService implements DataInputService {
                         String gender = parts[0].trim();
                         int age = Integer.parseInt(parts[1].trim());
                         String lastName = parts[2].trim();
-                        if(DataValidator.isValidString(gender) && DataValidator.isValidString(lastName))
+                        if(isValidString(gender) && isValidString(lastName))
                             persons.add(new Person.Builder()
                                     .gender(gender)
                                     .age(age)

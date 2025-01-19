@@ -57,9 +57,18 @@ public class App {
         scanner.nextLine();
 
         switch (objectType) {
-            case 1 -> strategy = new AnimalCreationService(scanner);
-            case 2 -> strategy = new BarrelCreationService(scanner);
-            case 3 -> strategy = new PersonCreationService(scanner);
+            case 1 -> {
+                Animal[] dataArray = getDataArray(scanner, Animal.class);
+                processSorting(scanner, Animal.class, dataArray);
+            }
+            case 2 -> {
+                Barrel[] dataArray = getDataArray(scanner, Barrel.class);
+                processSorting(scanner, Barrel.class, dataArray);
+            }
+            case 3 -> {
+                Person[] dataArray = getDataArray(scanner, Person.class);
+                processSorting(scanner, Person.class, dataArray);
+            }
             case 4 -> {
                 System.out.println();
                 System.out.println("Вовзрат на предыдущий шаг.");
@@ -75,6 +84,21 @@ public class App {
                 System.out.println("Неверный выбор. Повторите попытку.");
                 processObjectType(scanner);
             }
+        }
+    }
+
+    private static int enterNum(Scanner scanner) {
+        System.out.println();
+        System.out.print("Введите количество элементов: ");
+
+        try {
+            int manualSize = scanner.nextInt();
+            scanner.nextLine();
+            if (manualSize < 0) return -919793;
+            return manualSize;
+        } catch (InputMismatchException e) {
+            scanner.nextLine();
+            return -919793;
         }
     }
 
@@ -96,10 +120,13 @@ public class App {
 
         switch (dataSource) {
             case 1:
-                System.out.println();
-                System.out.print("Введите количество элементов: ");
-                int manualSize = scanner.nextInt();
-                scanner.nextLine();
+                int manualSize = enterNum(scanner);
+
+                while (manualSize == -919793) {
+                    System.out.println("Ошибка ввода: пожалуйста, введите целое число больше 0.");
+                    manualSize = enterNum(scanner);
+                }
+
                 return inputService.readFromConsole(manualSize, type);
             case 2:
                 System.out.println();
@@ -167,15 +194,21 @@ public class App {
                 return;
             }
 
+            try {
+                // Сортировка массива
+                TimSort<T> timSort = new TimSort<>();
+                timSort.sort(dataArray, comparator);
+                System.out.println();
+                System.out.println("Отсортированный массив: ");
+                Arrays.stream(dataArray).forEach(System.out::println);
 
-            // Сортировка массива
-            TimSort<T> timSort = new TimSort<>();
-            timSort.sort(dataArray, comparator);
-            System.out.println();
-            System.out.println("Отсортированный массив: ");
-            Arrays.stream(dataArray).forEach(System.out::println);
+                saveRequest(scanner, outputService, type, dataArray, comparator);
+            } catch (NullPointerException e) {
+                System.out.println();
+                System.out.println("Массив пуст. Попробуйте еще раз.");
+                getDataArray(scanner, type);
+            }
 
-            saveRequest(scanner, outputService, type, dataArray, comparator);
 
         } else if (sortType == 4) {
             System.out.println();
