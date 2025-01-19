@@ -139,7 +139,7 @@ public class InputService implements DataInputService {
     }
 
     @Override
-    public <T> List<String> getInputFromConsole(int size){
+    public List<String> getInputFromConsole(int size){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Введите " + size + " строк данных разделенных через ','");
         System.out.println("Пример:");
