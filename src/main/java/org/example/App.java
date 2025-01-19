@@ -6,6 +6,8 @@ import org.example.sorted.*;
 import org.example.output.OutputService;
 import java.util.*;
 
+import static org.example.input.DataValidator.enterNum;
+
 
 public class App {
     public static void main(String[] args) {
@@ -42,7 +44,7 @@ public class App {
         }
     }
 
-    private static <T> void processObjectType(Scanner scanner) {
+    private static void processObjectType(Scanner scanner) {
         System.out.println();
         System.out.println("Выберите тип объекта:");
         System.out.println("1. Animal");
@@ -84,21 +86,6 @@ public class App {
                 System.out.println("Неверный выбор. Повторите попытку.");
                 processObjectType(scanner);
             }
-        }
-    }
-
-    private static int enterNum(Scanner scanner) {
-        System.out.println();
-        System.out.print("Введите количество элементов: ");
-
-        try {
-            int manualSize = scanner.nextInt();
-            scanner.nextLine();
-            if (manualSize < 0) return -919793;
-            return manualSize;
-        } catch (InputMismatchException e) {
-            scanner.nextLine();
-            return -919793;
         }
     }
 
@@ -290,24 +277,7 @@ public class App {
 
         switch (searchChoice) {
             case 1:
-                // Бинарный поиск
-                System.out.println();
-                System.out.println("Введите ключ для бинарного поиска. Регистр не важен. Пример: bird,red,true");
-                String key = scanner.nextLine();
-                T keyObject = parseKey(key, type);
-                T foundElement = null;
-
-                if (keyObject != null) {
-                    BinarySearch<T> binarySearch = new BinarySearch<>();
-                    foundElement = binarySearch.findElement(dataArray, keyObject, comparator);
-                    System.out.println();
-                }
-
-                if (foundElement != null) {
-                    saveRequestSolo(scanner, foundElement, outputService, type, dataArray,comparator);
-                } else {
-                    repeat(scanner, type, dataArray, comparator, outputService);
-                }
+                binarySearch(scanner, type, dataArray, comparator, outputService);
                 break;
             case 2:
                 System.out.println();
@@ -329,39 +299,6 @@ public class App {
         }
     }
 
-    private static <T> void repeat(Scanner scanner, Class<T> type, T[] dataArray, Comparator<T> comparator, OutputService outputService) {
-        System.out.println();
-        System.out.println("Объект не найден. Повторить?");
-        System.out.println("1. Да.");
-        System.out.println("2. Нет.");
-        System.out.println();
-        System.out.println("-----------------------------");
-        System.out.println("5. Выйти.");
-        System.out.print("Ваш выбор:");
-        int repeat = scanner.nextInt();
-        scanner.nextLine();
-
-        switch (repeat) {
-            case 1 -> {
-                binarySearch(scanner, type, dataArray, comparator, outputService);
-            }
-            case 2 -> {
-                System.out.println();
-                System.out.println("Возврат в начало.");
-            }
-            case 5 -> {
-                System.out.println();
-                System.out.println("Выход из программы...");
-                System.exit(0);
-            }
-            default -> {
-                System.out.println();
-                System.out.println("Неверный выбор. Повторите попытку.");
-                repeat(scanner, type, dataArray, comparator, outputService);
-            }
-        }
-    }
-
     public static <T> void binarySearch(Scanner scanner, Class<T> type, T[] dataArray, Comparator<T> comparator, OutputService outputService) {
         // Бинарный поиск
         System.out.println();
@@ -380,6 +317,37 @@ public class App {
             saveRequestSolo(scanner, foundElement, outputService, type, dataArray, comparator);
         } else {
             repeat(scanner, type, dataArray, comparator, outputService);
+        }
+    }
+
+    private static <T> void repeat(Scanner scanner, Class<T> type, T[] dataArray, Comparator<T> comparator, OutputService outputService) {
+        System.out.println();
+        System.out.println("Объект не найден. Повторить?");
+        System.out.println("1. Да.");
+        System.out.println("2. Нет.");
+        System.out.println();
+        System.out.println("-----------------------------");
+        System.out.println("5. Выйти.");
+        System.out.print("Ваш выбор:");
+        int repeat = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (repeat) {
+            case 1 -> binarySearch(scanner, type, dataArray, comparator, outputService);
+            case 2 -> {
+                System.out.println();
+                System.out.println("Возврат в начало.");
+            }
+            case 5 -> {
+                System.out.println();
+                System.out.println("Выход из программы...");
+                System.exit(0);
+            }
+            default -> {
+                System.out.println();
+                System.out.println("Неверный выбор. Повторите попытку.");
+                repeat(scanner, type, dataArray, comparator, outputService);
+            }
         }
     }
 
@@ -426,8 +394,6 @@ public class App {
                 saveRequestSolo(scanner, foundElement, outputService, type, dataArray, comparator);
         }
     }
-
-
 
     private static <T> T parseKey(String key, Class<T> type) {
         try {
